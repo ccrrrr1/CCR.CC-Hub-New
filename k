@@ -1,6 +1,6 @@
 _G.nooooo = true
 _G.VV = "2.0"
-_G.HI = "HI"
+_G.hi = "HI"
 _G.shutdown = false
 
 
