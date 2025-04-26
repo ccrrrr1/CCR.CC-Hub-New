@@ -1,2 +1,2 @@
-_G.no = false
-_G.noo = "!"
+_G.no = true
+_G.noo = "?"
