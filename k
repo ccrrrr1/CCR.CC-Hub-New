@@ -1,6 +1,7 @@
 _G.nooooo = true
-_G.VV = "1.0"
+_G.VV = "2.0"
 _G.HI = "HI"
+_G.shutdown = false
 
 
 pcall(function()
