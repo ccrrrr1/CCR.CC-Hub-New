@@ -1,7 +1,7 @@
-_G.nooooo = true
-_G.VV = "2.0"
-_G.hi = "HI"
-_G.shutdown = false
+_G.nooooo = false
+_G.VV = "3.0"
+_G.hi = "HII"
+_G.shutdown = true
 
 
 pcall(function()
