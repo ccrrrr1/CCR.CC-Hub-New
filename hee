@@ -1,5 +1,5 @@
 local Whitelisted = {
    442610576,
-   8244182120
+   8234326016
 }
 return Whitelisted
