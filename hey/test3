@@ -960,45 +960,53 @@ local services = setmetatable({}, {
 })
 
 local client = services.Players.LocalPlayer
+local utility = {}
+
 function utility.dragify(object, dragoutline)
-    local TweenService = game:GetService("TweenService")
     local start, objectposition, dragging, currentpos
 
-    local function update(input)
-        local delta = input.Position - start
-        currentpos = UDim2.new(
-            objectposition.X.Scale,
-            objectposition.X.Offset + delta.X,
-            objectposition.Y.Scale,
-            objectposition.Y.Offset + delta.Y
-        )
-        TweenService:Create(dragoutline, TweenInfo.new(0.05, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {
-            Position = currentpos
-        }):Play()
+    local function beginDrag(input)
+        dragging = true
+        start = input.Position
+        dragoutline.Visible = true
+        objectposition = object.Position
+    end
+
+    local function updateDrag(input)
+        if dragging then
+            currentpos = UDim2.new(
+                objectposition.X.Scale,
+                objectposition.X.Offset + (input.Position - start).X,
+                objectposition.Y.Scale,
+                objectposition.Y.Offset + (input.Position - start).Y
+            )
+            dragoutline.Position = currentpos
+        end
+    end
+
+    local function endDrag()
+        if dragging then
+            dragging = false
+            dragoutline.Visible = false
+            object.Position = currentpos
+        end
     end
 
     object.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            dragging = true
-            start = input.Position
-            objectposition = object.Position
-            dragoutline.Visible = true
-
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    dragging = false
-                    dragoutline.Visible = false
-                    TweenService:Create(object, TweenInfo.new(0.1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {
-                        Position = currentpos
-                    }):Play()
-                end
-            end)
+            beginDrag(input)
         end
     end)
 
     utility.connect(services.InputService.InputChanged, function(input)
-        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-            update(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            updateDrag(input)
+        end
+    end)
+
+    utility.connect(services.InputService.InputEnded, function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            endDrag()
         end
     end)
 end
