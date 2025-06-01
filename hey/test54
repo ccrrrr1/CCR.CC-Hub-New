@@ -2824,8 +2824,33 @@ function library:Load(options)
         Theme = "Window Background"
     })
 
-local ContextActionService=game:GetService("ContextActionService") local function sinkInput() return Enum.ContextActionResult.Sink end main.MouseEnter:Connect(function() ContextActionService:BindActionAtPriority("blockInput",sinkInput,false,3000,Enum.UserInputType.MouseButton1,Enum.UserInputType.MouseButton2,Enum.UserInputType.MouseWheel,Enum.UserInputType.MouseMovement) end) main.MouseLeave:Connect(function() ContextActionService:UnbindAction("blockInput") end)
-    
+main.MouseEnter:Connect(function()
+    game:GetService("ContextActionService"):BindActionAtPriority(
+        "DisableMouseScroll",
+        function()
+            return Enum.ContextActionResult.Sink
+        end,
+        false,
+        3000,
+        Enum.UserInputType.MouseWheel
+    )
+end)
+
+main.MouseLeave:Connect(function()
+    game:GetService("ContextActionService"):UnbindAction("DisableMouseScroll")
+end)
+
+main.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        game:GetService("UserInputService").ModalEnabled = true
+    end
+end)
+
+main.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        game:GetService("UserInputService").ModalEnabled = false
+    end
+end)    
     local outline = utility.outline(main, "Accent")
 
     utility.outline(outline, "Window Border")
