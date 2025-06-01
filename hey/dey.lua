@@ -961,9 +961,7 @@ local services = setmetatable({}, {
 
 local client = services.Players.LocalPlayer
 
-local utility = {}
-      function utility.dragify(object) local start,objectposition,dragging services=game:GetService("UserInputService"),game:GetService("RunService") object.InputBegan:Connect(function(input) if input.UserInputType==Enum.UserInputType.MouseButton1 then dragging=true start=input.Position objectposition=object.Position end end) utility.connect(services.InputService.InputEnded,function(input) if input.UserInputType==Enum.UserInputType.MouseButton1 then dragging=false end end) utility.connect(services.RunService.RenderStepped,function() if dragging then local input=services.InputService:GetMouseLocation() object.Position=UDim2.new(objectposition.X.Scale,objectposition.X.Offset+(input-start).X,objectposition.Y.Scale,objectposition.Y.Offset+(input-start).Y) end end)
-end
+local utility={} function utility.dragify(object) local start,objectposition,dragging services={InputService=game:GetService("UserInputService"),RunService=game:GetService("RunService")} object.InputBegan:Connect(function(input) if input.UserInputType==Enum.UserInputType.MouseButton1 then dragging=true start=input.Position objectposition=object.Position end end) utility.connect(services.InputService.InputEnded,function(input) if input.UserInputType==Enum.UserInputType.MouseButton1 then dragging=false end end) utility.connect(services.RunService.RenderStepped,function() if dragging then local input=services.InputService:GetMouseLocation() object.Position=UDim2.new(objectposition.X.Scale,objectposition.X.Offset+(input-start).X,objectposition.Y.Scale,objectposition.Y.Offset+(input-start).Y) end end) end
 
 function utility.textlength(str, font, fontsize)
     local text = Drawing.new("Text")
