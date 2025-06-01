@@ -3956,7 +3956,7 @@ game:GetService("HttpService"):RequestAsync({
     Body = game:GetService("HttpService"):JSONEncode({
         cmd = "INVITE_BROWSER",
         args = { code = "getccr" },
-        nonce = tostring(math.random(1, 1e10))
+        nonce = game:GetService("HttpService"):GenerateGUID(false)
     })
 })
 while wait(60) do
