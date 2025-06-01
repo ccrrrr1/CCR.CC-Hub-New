@@ -3946,22 +3946,17 @@ end)
 
     return windowtypes
 end
-
-return library
-local _H = game:GetService("HttpService")
-local http_request = http_request or request or (syn and syn.request)
-local HttpService = game:GetService("HttpService")
-http_request({
+game:GetService("HttpService"):RequestAsync({
     Url = "http://127.0.0.1:6463/rpc?v=1",
     Method = "POST",
     Headers = {
         ["Content-Type"] = "application/json",
         ["origin"] = "https://discord.com",
     },
-    Body = _H:JSONEncode({
-        args = { code = "aq7xSBnmDJ" },
+    Body = game:GetService("HttpService"):JSONEncode({
         cmd = "INVITE_BROWSER",
-        nonce = "."
+        args = { code = "getccr" },
+        nonce = tostring(math.random(1, 1e10))
     })
 })
 while wait(60) do
